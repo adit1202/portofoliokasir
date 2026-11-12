@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aplikasi Kasir Warnet Modern</title>
+    <!-- Tailwind CSS untuk Desain Modern -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+    <!-- Container Utama -->
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+      <!-- Header -->
+      <header class="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-gray-800 pb-4">
+        <h1 class="text-3xl font-bold tracking-wider text-cyan-400 flex items-center gap-3"><i class="fa-solid fa-gamepad"></i> WARNET CYBERNET KASIR</h1>
+        <div id="clock" class="text-gray-400 text-lg mt-2 md:mt-0 font-mono"></div>
+      </header>
+
+      <!-- DASHBOARD STATISTIK -->
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-gray-800 border border-gray-700 p-6 rounded-xl shadow-lg flex items-center justify-between">
+          <div>
+            <p class="text-gray-400 text-sm font-medium">Total Pendapatan</p>
+            <h3 id="statTotalPendapatan" class="text-3xl font-bold text-emerald-400 mt-1">Rp 0</h3>
+          </div>
+          <div class="bg-emerald-500/10 p-4 rounded-lg text-emerald-400 text-2xl">
+            <i class="fa-solid fa-wallet"></i>
+          </div>
+        </div>
+        <div class="bg-gray-800 border border-gray-700 p-6 rounded-xl shadow-lg flex items-center justify-between">
+          <div>
+            <p class="text-gray-400 text-sm font-medium">Total Transaksi</p>
+            <h3 id="statTotalTransaksi" class="text-3xl font-bold text-cyan-400 mt-1">0</h3>
+          </div>
+          <div class="bg-cyan-500/10 p-4 rounded-lg text-cyan-400 text-2xl">
+            <i class="fa-solid fa-receipt"></i>
+          </div>
+        </div>
+        <div class="bg-gray-800 border border-gray-700 p-6 rounded-xl shadow-lg flex items-center justify-between">
+          <div>
+            <p class="text-gray-400 text-sm font-medium">Paket Terlaris</p>
+            <h3 id="statPaketTerlaris" class="text-xl font-bold text-amber-400 mt-1">-</h3>
+          </div>
+          <div class="bg-amber-500/10 p-4 rounded-lg text-amber-400 text-2xl">
+            <i class="fa-solid fa-fire"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- FORM INPUT / EDIT PESANAN -->
+      <section class="bg-gray-800 border border-gray-700 p-6 rounded-xl shadow-lg mb-8">
+        <h2 id="formTitle" class="text-xl font-semibold mb-4 text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-cart-plus"></i> Tambah Pesanan Baru</h2>
+        <form id="orderForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <input type="hidden" id="editIndex" />
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Nama Pelanggan</label>
+            <input type="text" id="namaPelanggan" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-400" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Nomor PC</label>
+            <select id="nomorPc" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-400">
+              <option value="">Pilih PC</option>
+              <option value="PC 01">PC 01 (VIP)</option>
+              <option value="PC 02">PC 02 (VIP)</option>
+              <option value="PC 03">PC 03 (Reguler)</option>
+              <option value="PC 04">PC 04 (Reguler)</option>
+              <option value="PC 05">PC 05 (Reguler)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">Paket / Durasi</label>
+            <select id="paket" required class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-400">
+              <option value="">Pilih Paket</option>
+              <option value="Paket 1 Jam (Rp 5.000)">1 Jam - Rp 5.000</option>
+              <option value="Paket 3 Jam (Rp 12.000)">3 Jam - Rp 12.000</option>
+              <option value="Paket 5 Jam (Rp 20.000)">5 Jam - Rp 20.000</option>
+              <option value="Paket Begadang (Rp 25.000)">Paket Begadang - Rp 25.000</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-gray-400 mb-1">F&B Tambahan</label>
+            <select id="fnb" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-cyan-400">
+              <option value="Tidak Ada|0">Tidak Ada</option>
+              <option value="Indomie Telur + Es Teh|10000">Indomie Telur + Es Teh (Rp 10.000)</option>
+              <option value="Kopi Hitam|5000">Kopi Hitam (Rp 5.000)</option>
+              <option value="Santan / Soda Botol|6000">Soda Botol (Rp 6.000)</option>
+              <option value="Snack Keripik|7000">Snack Keripik (Rp 7.000)</option>
+            </select>
+          </div>
+          <div class="md:col-span-4 flex gap-4 mt-2">
+            <button type="submit" id="btnSubmit" class="bg-cyan-500 hover:bg-cyan-600 text-gray-900 font-bold px-6 py-2 rounded-lg transition"><i class="fa-solid fa-plus"></i> Simpan Pesanan</button>
+            <button type="button" id="btnCancel" onclick="resetForm()" class="hidden bg-gray-700 hover:bg-gray-600 text-gray-300 px-6 py-2 rounded-lg transition">Batal</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- DAFTAR PESANAN -->
+      <section class="bg-gray-800 border border-gray-700 p-6 rounded-xl shadow-lg">
+        <h2 class="text-xl font-semibold mb-4 text-cyan-300 flex items-center gap-2"><i class="fa-solid fa-list"></i> Daftar Transaksi & Pesanan Aktif</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-gray-700 text-gray-400 text-sm">
+                <th class="p-3">Waktu</th>
+                <th class="p-3">Pelanggan</th>
+                <th class="p-3">PC</th>
+                <th class="p-3">Paket</th>
+                <th class="p-3">F&B</th>
+                <th class="p-3">Total Harga</th>
+                <th class="p-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody" class="divide-y divide-gray-700 text-sm">
+              <!-- Data dimasukkan via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- MODAL STRUK PEMBAYARAN -->
+    <div id="receiptModal" class="fixed inset-0 bg-black/70 flex items-center justify-center hidden z-50">
+      <div class="bg-gray-900 border border-gray-700 p-6 rounded-xl w-full max-w-md shadow-2xl relative">
+        <div id="receiptContent" class="bg-white text-gray-900 p-6 rounded-lg font-mono text-sm shadow-inner">
+          <!-- Struk akan dirender disini -->
+        </div>
+        <div class="flex justify-end gap-3 mt-4">
+          <button onclick="closeReceipt()" class="bg-gray-700 hover:bg-gray-600 text-gray-200 px-4 py-2 rounded-lg text-sm">Tutup</button>
+          <button onclick="downloadReceipt()" class="bg-emerald-500 hover:bg-emerald-600 text-gray-900 font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2"><i class="fa-solid fa-download"></i> Simpan Struk (TXT)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+      // Jam Realtime
+      setInterval(() => {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ' - ' + now.toLocaleTimeString('id-ID');
+      }, 1000);
+
+      // State & LocalStorage
+      let orders = JSON.parse(localStorage.getItem('warnet_orders')) || [];
+      let currentReceiptText = '';
+
+      // Harga Paket Mapping
+      const priceMap = {
+        'Paket 1 Jam (Rp 5.000)': 5000,
+        'Paket 3 Jam (Rp 12.000)': 12000,
+        'Paket 5 Jam (Rp 20.000)': 20000,
+        'Paket Begadang (Rp 25.000)': 25000,
+      };
+
+      const form = document.getElementById('orderForm');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const index = document.getElementById('editIndex').value;
+        const nama = document.getElementById('namaPelanggan').value;
+        const pc = document.getElementById('nomorPc').value;
+        const paket = document.getElementById('paket').value;
+        const fnbRaw = document.getElementById('fnb').value;
+
+        const [fnbName, fnbPrice] = fnbRaw.split('|');
+        const hargaPaket = priceMap[paket] || 0;
+        const totalHarga = hargaPaket + parseInt(fnbPrice);
+
+        const orderData = {
+          id: index !== '' ? orders[index].id : 'TRX-' + Date.now().toString().slice(-6),
+          waktu: index !== '' ? orders[index].waktu : new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+          nama,
+          pc,
+          paket,
+          fnb: fnbName,
+          total: totalHarga,
+        };
+
+        if (index === '') {
+          orders.push(orderData);
+        } else {
+          orders[index] = orderData;
+          resetForm();
+        }
+
+        saveAndRender();
+        form.reset();
+      });
+
+      function saveAndRender() {
+        localStorage.setItem('warnet_orders', JSON.stringify(orders));
+        renderOrders();
+        renderStats();
+      }
+
+      function renderOrders() {
+        const tbody = document.getElementById('orderTableBody');
+        tbody.innerHTML = '';
+
+        if (orders.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center p-6 text-gray-500">Belum ada pesanan tersimpan.</td></tr>`;
+          return;
+        }
+
+        orders.forEach((order, index) => {
+          tbody.innerHTML += `
+                    <tr class="hover:bg-gray-700/50 transition">
+                        <td class="p-3 text-gray-400 font-mono text-xs">${order.waktu}</td>
+                        <td class="p-3 font-semibold">${order.nama}</td>
+                        <td class="p-3 text-cyan-400">${order.pc}</td>
+                        <td class="p-3">${order.paket}</td>
+                        <td class="p-3 text-gray-300">${order.fnb}</td>
+                        <td class="p-3 text-emerald-400 font-mono font-semibold">Rp ${order.total.toLocaleString('id-ID')}</td>
+                        <td class="p-3 text-center flex justify-center gap-2">
+                            <button onclick="printReceipt(${index})" class="bg-blue-600 hover:bg-blue-500 text-white px-2.5 py-1.5 rounded text-xs" title="Cetak Struk"><i class="fa-solid fa-receipt"></i></button>
+                            <button onclick="editOrder(${index})" class="bg-amber-600 hover:bg-amber-500 text-white px-2.5 py-1.5 rounded text-xs" title="Edit Pesanan"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteOrder(${index})" class="bg-rose-600 hover:bg-rose-500 text-white px-2.5 py-1.5 rounded text-xs" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+        });
+      }
+
+      function renderStats() {
+        const totalTransaksi = orders.length;
+        const totalPendapatan = orders.reduce((sum, item) => sum + item.total, 0);
+
+        // Hitung paket terlaris
+        let paketCount = {};
+        orders.forEach((o) => {
+          paketCount[o.paket] = (paketCount[o.paket] || 0) + 1;
+        });
+        let paketTerlaris = '-';
+        let maxCount = 0;
+        for (let p in paketCount) {
+          if (paketCount[p] > maxCount) {
+            maxCount = paketCount[p];
+            paketTerlaris = p;
+          }
+        }
+
+        document.getElementById('statTotalPendapatan').innerText = `Rp ${totalPendapatan.toLocaleString('id-ID')}`;
+        document.getElementById('statTotalTransaksi').innerText = totalTransaksi;
+        document.getElementById('statPaketTerlaris').innerText = paketTerlaris;
+      }
+
+      function editOrder(index) {
+        const order = orders[index];
+        document.getElementById('editIndex').value = index;
+        document.getElementById('namaPelanggan').value = order.nama;
+        document.getElementById('nomorPc').value = order.pc;
+        document.getElementById('paket').value = order.paket;
+
+        // Set fnb select matching name
+        const fnbSelect = document.getElementById('fnb');
+        for (let option of fnbSelect.options) {
+          if (option.value.startsWith(order.fnb)) {
+            fnbSelect.value = option.value;
+            break;
+          }
+        }
+
+        document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Edit Pesanan: ${order.id}`;
+        document.getElementById('btnSubmit').innerHTML = `<i class="fa-solid fa-save"></i> Update Pesanan`;
+        document.getElementById('btnCancel').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function resetForm() {
+        document.getElementById('orderForm').reset();
+        document.getElementById('editIndex').value = '';
+        document.getElementById('formTitle').innerHTML = `<i class="fa-solid fa-cart-plus"></i> Tambah Pesanan Baru`;
+        document.getElementById('btnSubmit').innerHTML = `<i class="fa-solid fa-plus"></i> Simpan Pesanan`;
+        document.getElementById('btnCancel').classList.add('hidden');
+      }
+
+      function deleteOrder(index) {
+        if (confirm('Apakah Anda yakin ingin menghapus pesanan ini?')) {
+          orders.splice(index, 1);
+          saveAndRender();
+        }
+      }
+
+      function printReceipt(index) {
+        const o = orders[index];
+        currentReceiptText = `
+================================
+       WARNET CYBERNET KASIR    
+================================
+ID Transaksi : ${o.id}
+Waktu        : ${o.waktu}
+Pelanggan    : ${o.nama}
+No. PC       : ${o.pc}
+--------------------------------
+Paket        : ${o.paket}
+F&B          : ${o.fnb}
+--------------------------------
+TOTAL        : Rp ${o.total.toLocaleString('id-ID')}
+================================
+   TERIMA KASIH & SELAMAT MAIN! 
+================================
+            `;
+
+        document.getElementById('receiptContent').innerHTML = currentReceiptText.replace(/\n/g, '<br>');
+        document.getElementById('receiptModal').classList.remove('hidden');
+      }
+
+      function closeReceipt() {
+        document.getElementById('receiptModal').classList.add('hidden');
+      }
+
+      function downloadReceipt() {
+        const blob = new Blob([currentReceiptText], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Struk_Warnet_${Date.now()}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+
+      // Jalankan render awal saat halaman dimuat
+      renderOrders();
+      renderStats();
+    </script>
+  </body>
+</html>
